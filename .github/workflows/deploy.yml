@@ -3,7 +3,7 @@ name: Deploy React + Vite to GitHub Pages
 on:
   push:
     branches:
-      - main   # or your default branch name
+      - main
 
 jobs:
   build-deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'  # or your preferred Node.js version
+        node-version: '18'
 
     - name: Install dependencies
       run: npm install
@@ -24,8 +24,14 @@ jobs:
     - name: Build app
       run: npm run build
 
+    - name: Setup Git user
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
+        publish_branch: gh-pages
