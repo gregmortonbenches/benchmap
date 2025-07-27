@@ -1,38 +1,100 @@
-import { useEffect, useState } from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../firebase'
-import 'leaflet/dist/leaflet.css'
+import React, { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
-const BenchMap = () => {
-  const [benches, setBenches] = useState([])
+// Firebase imports
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+} from "firebase/firestore";
+
+// Your Firebase config (replace with your actual config)
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+export default function BenchMap() {
+  const [benches, setBenches] = useState([]);
 
   useEffect(() => {
-    const fetchBenches = async () => {
-      const snapshot = await getDocs(collection(db, 'benches'))
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-      setBenches(data)
+    async function fetchBenches() {
+      try {
+        const benchesCol = collection(db, "benches");
+        const benchSnapshot = await getDocs(benchesCol);
+        const benchList = benchSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setBenches(benchList);
+      } catch (error) {
+        console.error("Error fetching benches:", error);
+      }
     }
-    fetchBenches()
-  }, [])
+    fetchBenches();
+  }, []);
+
+  async function rateBench(id, rating) {
+    try {
+      const benchRef = doc(db, "benches", id);
+      await setDoc(
+        benchRef,
+        { ratings: rating }, // You can modify to accumulate ratings or update as needed
+        { merge: true }
+      );
+      alert("Thanks for rating!");
+    } catch (error) {
+      console.error("Error saving rating:", error);
+    }
+  }
 
   return (
-    <MapContainer center={[51.5, -0.1]} zoom={13} style={{ height: '100vh', width: '100%' }}>
+    <MapContainer
+      center={[51.505, -0.09]}
+      zoom={13}
+      style={{ height: "600px", width: "100%" }}
+    >
       <TileLayer
+        attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {benches.map(bench => (
+
+      {benches.map((bench) => (
         <Marker key={bench.id} position={[bench.lat, bench.lng]}>
           <Popup>
-            {bench.name}<br />
-            Comfort: {bench.comfort}<br />
-            View: {bench.view}<br />
-            Ambience: {bench.ambience}
+            <div>
+              <h3 className="font-bold">{bench.name || "Bench"}</h3>
+              <p>Comfort: {bench.ratings?.comfort || "Not rated"}</p>
+              <p>Ambience: {bench.ratings?.ambience || "Not rated"}</p>
+              <p>View: {bench.ratings?.view || "Not rated"}</p>
+
+              <button
+                onClick={() =>
+                  rateBench(bench.id, {
+                    comfort: 5,
+                    ambience: 4,
+                    view: 3,
+                  })
+                }
+                className="mt-2 px-2 py-1 bg-blue-500 text-white rounded"
+              >
+                Rate 5 / 4 / 3
+              </button>
+            </div>
           </Popup>
         </Marker>
       ))}
     </MapContainer>
-  )
+  );
 }
-
-export default BenchMap
