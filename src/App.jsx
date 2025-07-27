@@ -1,11 +1,11 @@
-import BenchMap from './components/BenchMap'
+import React from "react";
+import BenchMap from "./components/BenchMap";
 
-function App() {
+export default function App() {
   return (
-    <div>
+    <div className="app-container">
+      <h1 className="text-3xl font-bold mb-4">Bench Rating Map</h1>
       <BenchMap />
     </div>
-  )
+  );
 }
-
-export default App
