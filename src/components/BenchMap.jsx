@@ -1,8 +1,7 @@
-// src/components/BenchMap.jsx
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import 'leaflet.heat';
 import 'leaflet.heat/dist/leaflet-heat.js';
+import 'leaflet/dist/leaflet.css';
 
 function getTileUrlsForBounds(bounds) {
   const tileRows = 10, tileCols = 10;
@@ -21,7 +20,7 @@ function getTileUrlsForBounds(bounds) {
   const urls = [];
   for (let row = minRow; row <= maxRow; row++) {
     for (let col = minCol; col <= maxCol; col++) {
-      urls.push(`/data/tile_${row}_${col}.geojson`);
+      urls.push(`${import.meta.env.BASE_URL}data/tile_${row}_${col}.geojson`);
     }
   }
   return urls;
@@ -33,23 +32,19 @@ export default function BenchMap() {
   const tilesLoaded = useRef(new Set());
 
   useEffect(() => {
-    // Initialize map
-    const map = L.map('map').setView([54.5, -3], 6); // UK centered
+    const map = L.map('map').setView([54.5, -3], 6);
     mapRef.current = map;
 
-    // Add base map
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
     }).addTo(map);
 
-    // Add empty heat layer
     heatLayerRef.current = L.heatLayer([], {
       radius: 25,
       blur: 15,
       maxZoom: 17,
     }).addTo(map);
 
-    // Load tiles dynamically
     const loadVisibleTiles = () => {
       const bounds = map.getBounds();
       const urls = getTileUrlsForBounds(bounds);
@@ -62,20 +57,20 @@ export default function BenchMap() {
           .then(data => {
             const points = data.features.map(f => {
               const [lng, lat] = f.geometry.coordinates;
-              return [lat, lng, 1]; // [lat, lng, intensity]
+              return [lat, lng, 1];
             });
 
             heatLayerRef.current.addLatLngs(points);
             tilesLoaded.current.add(url);
           })
           .catch(err => {
-            console.warn('Failed to load tile:', url);
+            console.warn('Failed to load tile:', url, err);
           });
       });
     };
 
     map.on('moveend', loadVisibleTiles);
-    loadVisibleTiles(); // Load initially
+    loadVisibleTiles();
 
     return () => {
       map.off('moveend', loadVisibleTiles);
