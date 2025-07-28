@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet.heat';
-import 'leaflet/dist/leaflet.css';
+import 'leaflet.heat/dist/leaflet-heat.js';
 
 function getTileUrlsForBounds(bounds) {
   const tileRows = 10, tileCols = 10;
