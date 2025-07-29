@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet.heat';               // <-- Import leaflet.heat like this, no relative path
 import 'leaflet/dist/leaflet.css';
