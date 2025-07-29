@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import '../../node_modules/leaflet.heat/dist/leaflet-heat.js';
+import 'leaflet.heat';               // <-- Import leaflet.heat like this, no relative path
 import 'leaflet/dist/leaflet.css';
 
 function getTileUrlsForBounds(bounds) {
