@@ -1,17 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bench Map</title>
-    <link href="/src/index.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet/dist/leaflet.css"
-    />
-  </head>
-  <body class="bg-gray-50">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bench Map UK - Find & rate public benches</title>
+    <meta name="description" content="An interactive map to find and rate public benches across the United Kingdom. Discover benches with the best views, comfort, and ambience.">
+    <meta name="theme-color" content="#1a2e1a">
+    <link rel="canonical" href="https://www.benchmap.co.uk/">
+
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website">
+    <meta property="og:url"         content="https://www.benchmap.co.uk/">
+    <meta property="og:site_name"   content="Bench Map UK">
+    <meta property="og:title"       content="Bench Map UK – Find &amp; rate public benches">
+    <meta property="og:description" content="An interactive map of 137,000+ public benches across the UK. Find, rate, and tag your favourite spots.">
+    <meta property="og:image"       content="https://www.benchmap.co.uk/sky1.png">
+    <meta property="og:image:width" content="1920">
+    <meta property="og:image:height" content="1080">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="Bench Map UK – Find &amp; rate public benches">
+    <meta name="twitter:description" content="An interactive map of 137,000+ public benches across the UK. Find, rate, and tag your favourite spots.">
+    <meta name="twitter:image"       content="https://www.benchmap.co.uk/sky1.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P5894RYLBQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P5894RYLBQ');
+    </script>
+    
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Bench Map UK",
+      "url": "https://www.benchmap.co.uk",
+      "description": "An interactive map to find and rate public benches across the United Kingdom."
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-vector@4/dist/esri-leaflet-vector.css" />
+    
+    <link rel="stylesheet" href="styles.css">
+    <!-- Bench favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+    <h1 class="sr-only">Bench Map UK</h1>
+    <!-- Floating logo (top-left): icon-only collapsed, expands to pill on click -->
+    <div class="floating-logo">
+        <a href="about.html" class="floating-logo-link" id="logoBtn" title="About Bench Map UK" aria-label="About Bench Map UK">
+            <span class="logo-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 4 32 24" width="22" height="22" fill="#ffffff">
+                    <path d="M27.5,7l-23,0l0,-1c-0,-0.276 -0.224,-0.5 -0.5,-0.5c-0.276,0 -0.5,0.224 -0.5,0.5l0,10.5l-1.5,-0c-0.276,0 -0.5,0.224 -0.5,0.5l0,3.5c0,0.276 0.224,0.5 0.5,0.5l1,-0l0,5c-0,0.276 0.224,0.5 0.5,0.5c0.276,0 0.5,-0.224 0.5,-0.5l0,-5l24,-0l0,5c-0,0.276 0.224,0.5 0.5,0.5c0.276,0 0.5,-0.224 0.5,-0.5l0,-5l1,-0c0.276,-0 0.5,-0.224 0.5,-0.5l0,-3.5c0,-0.276 -0.224,-0.5 -0.5,-0.5l-1.5,-0l0,-10.5c-0,-0.276 -0.224,-0.5 -0.5,-0.5c-0.276,0 -0.5,0.224 -0.5,0.5l0,1Zm-23,6.5l0,3l23,-0l0,-3l-23,-0Z"/>
+                </svg>
+            </span>
+            <span class="logo-text">Bench Map UK</span>
+        </a>
+    </div>
+
+    <!-- Floating controls (top-right): collapsible search + filter -->
+    <div class="floating-controls" id="floatingControls">
+        <div class="search-pill" id="searchPill">
+            <button class="search-icon-btn" id="searchToggleBtn" aria-label="Search location">🔍</button>
+            <input id="searchInput" type="text" placeholder="Search location..." aria-label="Search location" autocomplete="off" />
+            <button id="searchBtn" class="search-go-btn" aria-label="Go">›</button>
+        </div>
+        <!-- Filter button (repurposed menu btn) + dropdown panel -->
+        <div class="filter-wrapper" id="tagFilterWrapper">
+            <button id="menuBtn" class="filter-fab" aria-label="Filter benches" aria-expanded="false" aria-haspopup="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -10 110 135" width="22" height="22" fill="currentColor" aria-hidden="true">
+                    <path d="m88.121 38.879c-0.5625-0.5625-1.3242-0.87891-2.1211-0.87891h-27v-6h27c0.79688 0 1.5586-0.31641 2.1211-0.87891l9-9c1.1719-1.1719 1.1719-3.0703 0-4.2422l-9-9c-0.5625-0.5625-1.3242-0.87891-2.1211-0.87891h-27.516c-1.6602-4.6875-6.8008-7.1406-11.488-5.4805-2.5586 0.90625-4.5742 2.9219-5.4805 5.4805h-27.516c-0.79688 0-1.5586 0.31641-2.1211 0.87891l-9 9c-1.1719 1.1719-1.1719 3.0703 0 4.2422l9 9c0.5625 0.5625 1.3242 0.87891 2.1211 0.87891h27v63c0 1.6562 1.3438 3 3 3h12c1.6562 0 3-1.3438 3-3v-33h27c0.79688 0 1.5586-0.31641 2.1211-0.87891l9-9c1.1719-1.1719 1.1719-3.0703 0-4.2422zm-47.121-12.879h-25.758l-6-6 6-6h25.758zm12 42h-6v-57c0-1.6562 1.3438-3 3-3s3 1.3438 3 3zm31.758-12h-25.758v-12h25.758l6 6z"/>
+                </svg>
+            </button>
+            <div id="tagFilterPanel" class="tag-filter-panel" role="menu">
+                <button class="filter-chip active" data-tag="all">All benches</button>
+                <button class="filter-chip" data-tag="chatty"><span aria-hidden="true">💬</span> Chatty</button>
+                <button class="filter-chip" data-tag="chess"><span aria-hidden="true">♟️</span> Chess</button>
+                <button class="filter-chip" data-tag="books"><span aria-hidden="true">📚</span> Books</button>
+                <button class="filter-chip" data-tag="dogs"><span aria-hidden="true">🐕</span> Dog friendly</button>
+                <button class="filter-chip" data-tag="scenic"><span aria-hidden="true">🌅</span> Scenic</button>
+                <button class="filter-chip" data-tag="sheltered"><span aria-hidden="true">⛱️</span> Sheltered</button>
+                <button class="filter-chip" data-tag="accessible"><span aria-hidden="true">♿</span> Accessible</button>
+                <button class="filter-chip" data-tag="memorial"><span aria-hidden="true">🕊️</span> Memorial</button>
+                <button class="filter-chip" data-tag="wildlife"><span aria-hidden="true">🐦</span> Wildlife</button>
+                <button class="filter-chip" data-tag="community"><span aria-hidden="true">🤝</span> Community</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map container -->
+    <div id="map" aria-label="Interactive bench map"></div>
+
+    <!-- Add bench hint (shown when add-bench mode is active) -->
+    <div id="addBenchHint" role="status" aria-live="polite">Tap on the map to place a new bench</div>
+
+    <!-- Bottom-left FAB: Add bench -->
+    <button id="addBenchFab" class="fab fab-add" title="Add a new bench" aria-label="Add new bench">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="24" height="24" fill="currentColor" aria-hidden="true">
+            <path d="M46,14 L46,46 L14,46 L14,54 L46,54 L46,86 L54,86 L54,54 L86,54 L86,46 L54,46 L54,14 Z"/>
+        </svg>
+    </button>
+
+    <!-- Bottom-right FAB: Find nearest -->
+    <button id="nearestBtn" class="fab fab-nearest" title="Find nearest bench" aria-label="Find nearest bench">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 30" width="23" height="28" fill="currentColor" aria-hidden="true">
+            <path d="m12,2.25c-2.89,0-5.25,2.36-5.25,5.25,0,2.63,1.96,4.83,4.5,5.19v8.31c0,.41.34.75.75.75s.75-.34.75-.75v-8.31c2.54-.36,4.5-2.56,4.5-5.19,0-2.89-2.36-5.25-5.25-5.25Z"/>
+        </svg>
+    </button>
+    
+    <!-- Bottom Drawer (used for BOTH bench details AND menu) -->
+    <div id="benchDrawer" class="bench-drawer" aria-hidden="true">
+        <div class="drawer-overlay" id="drawerOverlay"></div>
+        <div class="drawer-content">
+            <div class="drawer-handle">
+                <div class="handle-bar"></div>
+            </div>
+            <div id="drawerBody" class="drawer-body">
+                <!-- Dynamic content: bench details OR menu -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for photo uploads -->
+    <input type="file" id="benchPhotoInput" accept="image/*" capture="environment" style="display:none" aria-hidden="true" />
+
+    <!-- Photo Lightbox -->
+    <div id="photoLightbox" class="photo-lightbox" role="dialog" aria-modal="true" aria-label="Bench photo" aria-hidden="true">
+        <button class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close photo">×</button>
+        <img id="photoLightboxImg" src="" alt="" />
+    </div>
+
+    <!-- Simple Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">Loading benches...</div>
+    </div>
+
+    <!-- Welcome Overlay (shown once on first visit) -->
+    <div id="welcomeOverlay" class="welcome-overlay" role="dialog" aria-modal="true" aria-label="Get started with Bench Map UK">
+        <div class="welcome-content">
+
+            <div class="welcome-header">
+                <span class="welcome-fab-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 30" width="15" height="18" fill="#C85A40">
+                        <path d="m12,2.25c-2.89,0-5.25,2.36-5.25,5.25,0,2.63,1.96,4.83,4.5,5.19v8.31c0,.41.34.75.75.75s.75-.34.75-.75v-8.31c2.54-.36,4.5-2.56,4.5-5.19,0-2.89-2.36-5.25-5.25-5.25Z"/>
+                    </svg>
+                </span>
+                <p class="welcome-tagline">Find your nearest bench in the UK</p>
+            </div>
+
+            <div class="welcome-map-wrap" aria-hidden="true">
+                <svg class="welcome-map" viewBox="0 0 300 165" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Map background -->
+                    <rect width="300" height="165" fill="#1e321e"/>
+                    <!-- Green areas -->
+                    <rect x="0" y="0" width="110" height="62" fill="#243824"/>
+                    <rect x="190" y="90" width="110" height="75" fill="#243824"/>
+                    <!-- Roads -->
+                    <path d="M0 118 C 80 114, 150 122, 300 116" stroke="rgba(220,210,170,0.22)" stroke-width="11" fill="none"/>
+                    <path d="M0 55 C 90 58, 200 50, 300 55"    stroke="rgba(220,210,170,0.15)" stroke-width="8"  fill="none"/>
+                    <line x1="163" y1="0" x2="163" y2="165"    stroke="rgba(220,210,170,0.18)" stroke-width="9"/>
+                    <line x1="88"  y1="0" x2="92"  y2="165"    stroke="rgba(220,210,170,0.10)" stroke-width="5"/>
+                    <!-- Animated route from user dot to bench -->
+                    <path class="welcome-route"
+                          d="M 45 140 C 100 138, 148 128, 163 120 L 163 57 C 163 40, 194 34, 240 34"
+                          stroke="#C85A40" stroke-width="2.5" stroke-linecap="round"
+                          stroke-dasharray="6 4" fill="none"/>
+                    <!-- User location dot -->
+                    <circle cx="45" cy="140" r="9" fill="rgba(200,90,64,0.18)"/>
+                    <circle cx="45" cy="140" r="5" fill="#C85A40" stroke="#fff" stroke-width="1.5"/>
+                    <!-- Bench destination — appears when route arrives -->
+                    <g class="welcome-bench-dest" transform="translate(240,34)">
+                        <circle r="11" fill="#483735" stroke="#C85A40" stroke-width="1.5"/>
+                        <g transform="translate(-5.6,-5.6) scale(0.35)">
+                            <path fill="#fff" d="M27.5,7l-23,0l0,-1c-0,-0.276 -0.224,-0.5 -0.5,-0.5c-0.276,0 -0.5,0.224 -0.5,0.5l0,10.5l-1.5,-0c-0.276,0 -0.5,0.224 -0.5,0.5l0,3.5c0,0.276 0.224,0.5 0.5,0.5l1,-0l0,5c-0,0.276 0.224,0.5 0.5,0.5c0.276,0 0.5,-0.224 0.5,-0.5l0,-5l24,-0l0,5c-0,0.276 0.224,0.5 0.5,0.5c0.276,0 0.5,-0.224 0.5,-0.5l0,-5l1,-0c0.276,-0 0.5,-0.224 0.5,-0.5l0,-3.5c0,-0.276 -0.224,-0.5 -0.5,-0.5l-1.5,-0l0,-10.5c-0,-0.276 -0.224,-0.5 -0.5,-0.5c-0.276,0 -0.5,0.224 -0.5,0.5l0,1Zm-23,6.5l0,3l23,-0l0,-3l-23,-0Z"/>
+                        </g>
+                    </g>
+                    <!-- Horizon fade — top of map recedes into distance -->
+                    <defs>
+                        <linearGradient id="wMapFade" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%"  stop-color="#1e321e" stop-opacity="0.8"/>
+                            <stop offset="30%" stop-color="#1e321e" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="300" height="165" fill="url(#wMapFade)"/>
+                </svg>
+            </div>
+
+            <p class="welcome-rate">Rate any bench for comfort, view and ambience</p>
+            <button class="welcome-btn" onclick="window.benchApp.dismissWelcome()">Get started</button>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/esri-leaflet@3/dist/esri-leaflet.js"></script>
+    <script src="https://unpkg.com/esri-leaflet-vector@4/dist/esri-leaflet-vector.js"></script>
+    <script src="app.js"></script>
+    <script>
+      // Expandable logo: first tap expands to show name; second tap navigates
+      (function() {
+        var logoBtn = document.getElementById('logoBtn');
+        if (!logoBtn) return;
+        var expanded = false;
+        var collapseTimer = null;
+
+        logoBtn.addEventListener('click', function(e) {
+          if (!expanded) {
+            e.preventDefault();
+            expanded = true;
+            logoBtn.classList.add('expanded');
+            clearTimeout(collapseTimer);
+            collapseTimer = setTimeout(function() {
+              expanded = false;
+              logoBtn.classList.remove('expanded');
+            }, 3000);
+          }
+          // If already expanded, follow the href normally
+        });
+
+        document.addEventListener('click', function(e) {
+          if (expanded && !logoBtn.contains(e.target)) {
+            expanded = false;
+            logoBtn.classList.remove('expanded');
+            clearTimeout(collapseTimer);
+          }
+        });
+      })();
+    </script>
+</body>
 </html>

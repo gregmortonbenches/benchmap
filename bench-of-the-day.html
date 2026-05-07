@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bench of the Day – Bench Map UK</title>
+  <meta name="description" content="Today's featured bench — one from over 137,000 across the UK, changing daily at midnight." />
+  <meta name="theme-color" content="#1a2e1a">
+  <link rel="canonical" href="https://www.benchmap.co.uk/bench-of-the-day.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://www.benchmap.co.uk/bench-of-the-day.html">
+  <meta property="og:site_name"   content="Bench Map UK">
+  <meta property="og:title"       content="Bench of the Day – Bench Map UK">
+  <meta property="og:description" content="Today's featured bench — one from over 137,000 across the UK, changing daily at midnight.">
+  <meta property="og:image"       content="https://www.benchmap.co.uk/sky1.png">
+  <meta property="og:image:width" content="1920">
+  <meta property="og:image:height" content="1080">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Bench of the Day – Bench Map UK">
+  <meta name="twitter:description" content="Today's featured bench — one from over 137,000 across the UK, changing daily at midnight.">
+  <meta name="twitter:image"       content="https://www.benchmap.co.uk/sky1.png">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P5894RYLBQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-P5894RYLBQ');
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
+      background: #1a2e1a;
+      color: #E8F0E8;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ====== HEADER ====== */
+    .header {
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .header-logo-circle {
+      width: 34px; height: 34px;
+      background: #483735;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .header-logo-text {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .header-nav { display: flex; gap: 20px; }
+
+    .nav-link {
+      color: #a8c5a8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+
+    .nav-link:hover { color: #fff; }
+
+    /* ====== MAIN ====== */
+    .page-content {
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 52px 24px 72px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* ====== LABEL / DATE ====== */
+    .page-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: #7a9a7a;
+      margin-bottom: 6px;
+    }
+
+    .page-date {
+      font-size: 0.88rem;
+      color: #7a9a7a;
+      margin-bottom: 52px;
+    }
+
+    /* ====== LOADING ====== */
+    .loading {
+      padding: 60px 0;
+      color: #7a9a7a;
+      font-size: 0.95rem;
+    }
+
+    .loading-spinner {
+      display: block;
+      width: 36px; height: 36px;
+      border: 3px solid rgba(255,255,255,0.08);
+      border-top-color: #388E3C;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ====== BENCH CARD ====== */
+    .bench-card { display: none; }
+
+    /* Location — the primary hero element */
+    .bench-location-name {
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin: 0 0 14px;
+    }
+
+    /* Name/inscription — secondary, shown only if meaningful */
+    .bench-inscription {
+      font-size: 1rem;
+      color: #a8c5a8;
+      font-style: italic;
+      margin: 0 0 16px;
+      line-height: 1.5;
+    }
+
+    /* Coordinates */
+    .bench-coords {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.88rem;
+      color: #7a9a7a;
+      margin: 0 0 44px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ====== PRIMARY ACTION ====== */
+    .action-primary {
+      display: block;
+      width: 100%;
+      padding: 18px 24px;
+      background: #388E3C;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 16px;
+      transition: background 0.15s, transform 0.15s;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .action-primary:hover {
+      background: #4CAF50;
+      transform: translateY(-1px);
+    }
+
+    /* ====== SECONDARY ACTION ====== */
+    .action-secondary {
+      display: block;
+      text-align: center;
+      color: #7a9a7a;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 8px;
+      margin-bottom: 48px;
+      transition: color 0.15s;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    .action-secondary:hover { color: #a8c5a8; }
+
+    /* ====== BENCH DETAILS ====== */
+    .bench-details {
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+    }
+
+    .detail-row:last-child { border-bottom: none; }
+
+    .detail-key {
+      color: #7a9a7a;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.3px;
+    }
+
+    .detail-value {
+      color: #c5d5c5;
+      font-weight: 600;
+    }
+
+    /* ====== MEMORIAL ====== */
+    .memorial {
+      margin-top: 32px;
+      padding: 20px 24px;
+      background: rgba(0,0,0,0.2);
+      border-left: 3px solid #66BB6A;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+      color: #c5d5c5;
+      line-height: 1.6;
+      display: none;
+    }
+
+    /* ====== FOOTER ====== */
+    footer {
+      padding: 28px 24px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      text-align: center;
+      margin-top: auto;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: #7a9a7a;
+    }
+
+    footer a { color: #7a9a7a; text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 480px) {
+      .header { padding: 12px 16px; }
+      .header-logo-text { display: none; }
+      .page-content { padding: 36px 16px 56px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid #388E3C;
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.html" class="header-logo" aria-label="Back to map">
+      <div class="header-logo-circle" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 4 32 24" width="19" height="19" fill="#fff">
+          <path d="M27.5,7l-23,0l0,-1c-0,-0.276 -0.224,-0.5 -0.5,-0.5c-0.276,0 -0.5,0.224 -0.5,0.5l0,10.5l-1.5,-0c-0.276,0 -0.5,0.224 -0.5,0.5l0,3.5c0,0.276 0.224,0.5 0.5,0.5l1,-0l0,5c-0,0.276 0.224,0.5 0.5,0.5c0.276,0 0.5,-0.224 0.5,-0.5l0,-5l24,-0l0,5c-0,0.276 0.224,0.5 0.5,0.5c0.276,0 0.5,-0.224 0.5,-0.5l0,-5l1,-0c0.276,-0 0.5,-0.224 0.5,-0.5l0,-3.5c0,-0.276 -0.224,-0.5 -0.5,-0.5l-1.5,-0l0,-10.5c-0,-0.276 -0.224,-0.5 -0.5,-0.5c-0.276,0 -0.5,0.224 -0.5,0.5l0,1Zm-23,6.5l0,3l23,-0l0,-3l-23,-0Z"/>
+        </svg>
+      </div>
+      <span class="header-logo-text">Bench Map UK</span>
+    </a>
+    <nav class="header-nav" aria-label="Page navigation">
+      <a href="index.html" class="nav-link">← Map</a>
+      <a href="about.html" class="nav-link">About</a>
+    </nav>
+  </header>
+
+  <main class="page-content">
+
+    <p class="page-label">Bench of the day</p>
+    <p class="page-date" id="todayDate"></p>
+
+    <div id="loadingState" class="loading">
+      <span class="loading-spinner" aria-hidden="true"></span>
+      <span>Loading…</span>
+    </div>
+
+    <div id="benchCard" class="bench-card">
+
+      <h1 class="bench-location-name" id="benchLocationName">—</h1>
+      <p class="bench-inscription" id="benchInscription" style="display:none;"></p>
+      <p class="bench-coords" id="benchCoords"></p>
+
+      <a id="viewOnMapBtn" href="#" class="action-primary">View on map</a>
+      <button id="newBenchBtn" class="action-secondary">Show me another bench</button>
+
+      <div id="benchDetails" class="bench-details"></div>
+
+      <div id="memorialSection" class="memorial">
+        <span id="memorialTopic"></span>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <p>Data from <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a> · Built with <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a> &amp; <a href="https://firebase.google.com/" target="_blank" rel="noopener">Firebase</a></p>
+  </footer>
+
+  <script>
+    (function() {
+      'use strict';
+
+      const CONFIG = {
+        GITHUB_TILE_BASE: '/data/tile_',
+        EXISTING_TILES: [
+          '0_2','0_3',
+          '1_3','1_4','1_5','1_6','1_7','1_8','1_9',
+          '2_3','2_4','2_5','2_6','2_7','2_8','2_9',
+          '3_3','3_4','3_5','3_6','3_7','3_8','3_9',
+          '4_0','4_1','4_2','4_3','4_4','4_5','4_6','4_7','4_8',
+          '5_1','5_2','5_3','5_4','5_5','5_6',
+          '6_1','6_2','6_3','6_4','6_5','6_6',
+          '7_1','7_2','7_3','7_4','7_5','7_6',
+          '8_4','8_5','8_6',
+          '9_6','9_7'
+        ]
+      };
+
+      let allBenches = [];
+
+      function displayDate() {
+        const d = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('todayDate').textContent = d.toLocaleDateString('en-GB', options);
+      }
+
+      function getBenchDisplayName(props) {
+        if (props.topic      && props.topic.trim())      return props.topic.trim();
+        if (props.inscription && props.inscription.trim()) return props.inscription.trim();
+        if (props.name       && props.name.trim())       return props.name.trim();
+        if (props['name:en'] && props['name:en'].trim()) return props['name:en'].trim();
+        return null;
+      }
+
+      async function fetchTile(url) {
+        try {
+          const r = await fetch(url);
+          if (!r.ok) return [];
+          const geojson = await r.json();
+          if (!geojson || geojson.type !== 'FeatureCollection') return [];
+          return geojson.features.map(f => ({
+            id: f.properties.id || `${f.geometry.coordinates[1]}_${f.geometry.coordinates[0]}`,
+            lat: f.geometry.coordinates[1],
+            lng: f.geometry.coordinates[0],
+            props: f.properties
+          }));
+        } catch { return []; }
+      }
+
+      async function loadAllBenches() {
+        const urls = CONFIG.EXISTING_TILES.map(key => `${CONFIG.GITHUB_TILE_BASE}${key}.geojson`);
+        for (let i = 0; i < urls.length; i += 10) {
+          const results = await Promise.all(urls.slice(i, i + 10).map(fetchTile));
+          allBenches.push(...results.flat());
+        }
+      }
+
+      function seededRandom(seed) {
+        return function() {
+          let t = seed += 0x6D2B79F5;
+          t = Math.imul(t ^ t >>> 15, t | 1);
+          t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+          return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        };
+      }
+
+      function hashCode(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          hash = ((hash << 5) - hash) + str.charCodeAt(i);
+          hash = hash & hash;
+        }
+        return Math.abs(hash);
+      }
+
+      function getTodayUKDate() {
+        const ukTime = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/London' }));
+        return `${ukTime.getFullYear()}-${String(ukTime.getMonth()+1).padStart(2,'0')}-${String(ukTime.getDate()).padStart(2,'0')}`;
+      }
+
+      function getBenchOfTheDay() {
+        if (!allBenches.length) return null;
+        const rand = seededRandom(hashCode(getTodayUKDate()));
+        return allBenches[Math.floor(rand() * allBenches.length)];
+      }
+
+      function getRandomBench() {
+        return allBenches.length ? allBenches[Math.floor(Math.random() * allBenches.length)] : null;
+      }
+
+      async function getLocationName(lat, lng) {
+        try {
+          const data = await (await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+          )).json();
+          if (data.address) {
+            const parts = [];
+            const place = data.address.village || data.address.town || data.address.suburb || data.address.city_district || data.address.city;
+            if (place) parts.push(place);
+            if (data.address.county || data.address.state_district) parts.push(data.address.county || data.address.state_district);
+            return parts.join(', ') || data.display_name || 'United Kingdom';
+          }
+        } catch {}
+        return 'United Kingdom';
+      }
+
+      async function displayBench(bench) {
+        document.getElementById('loadingState').style.display = 'none';
+        const card = document.getElementById('benchCard');
+        card.style.display = 'block';
+
+        // Location name — primary hero
+        const locationName = await getLocationName(bench.lat, bench.lng);
+        document.getElementById('benchLocationName').textContent = locationName;
+
+        // Inscription/name — shown only if it adds something
+        const name = getBenchDisplayName(bench.props);
+        const inscEl = document.getElementById('benchInscription');
+        if (name && name !== locationName) {
+          inscEl.textContent = '\u201c' + name + '\u201d';
+          inscEl.style.display = 'block';
+        } else {
+          inscEl.style.display = 'none';
+        }
+
+        // Coordinates
+        document.getElementById('benchCoords').textContent =
+          `${bench.lat.toFixed(5)}\u00b0 N, ${Math.abs(bench.lng).toFixed(5)}\u00b0 ${bench.lng < 0 ? 'W' : 'E'}`;
+
+        // Map link
+        document.getElementById('viewOnMapBtn').href =
+          `index.html?lat=${bench.lat}&lng=${bench.lng}&zoom=17`;
+
+        // Detail rows — only if data exists
+        const rows = [];
+        if (bench.props.material) {
+          const m = bench.props.material;
+          rows.push({ key: 'Material', value: m.charAt(0).toUpperCase() + m.slice(1) });
+        }
+        if (bench.props.seats)    rows.push({ key: 'Seats',    value: bench.props.seats });
+        if (bench.props.backrest) rows.push({ key: 'Backrest', value: bench.props.backrest === 'yes' ? 'Yes' : 'No' });
+        if (bench.props.colour)   rows.push({ key: 'Colour',   value: bench.props.colour });
+        if (bench.props.chat_bench === 'yes' || bench.props.initiative === 'chat_bench')
+          rows.push({ key: 'Type', value: 'Chat bench' });
+
+        const detailsEl = document.getElementById('benchDetails');
+        if (rows.length) {
+          detailsEl.innerHTML = rows.map(r =>
+            `<div class="detail-row">
+               <span class="detail-key">${r.key}</span>
+               <span class="detail-value">${r.value}</span>
+             </div>`
+          ).join('');
+          detailsEl.style.display = 'block';
+        } else {
+          detailsEl.style.display = 'none';
+        }
+
+        // Memorial inscription
+        const memEl = document.getElementById('memorialSection');
+        if (bench.props.topic) {
+          document.getElementById('memorialTopic').textContent = bench.props.topic;
+          memEl.style.display = 'block';
+        } else {
+          memEl.style.display = 'none';
+        }
+      }
+
+      async function init() {
+        displayDate();
+        try {
+          await loadAllBenches();
+          const bench = getBenchOfTheDay();
+          if (bench) {
+            await displayBench(bench);
+          } else {
+            document.getElementById('loadingState').textContent = 'Unable to load benches. Please try again later.';
+          }
+        } catch (err) {
+          console.error('Init error:', err);
+          document.getElementById('loadingState').textContent = 'Unable to load benches. Please try again later.';
+        }
+
+        document.getElementById('newBenchBtn').addEventListener('click', async () => {
+          const card = document.getElementById('benchCard');
+          const loading = document.getElementById('loadingState');
+          card.style.display = 'none';
+          loading.style.display = 'block';
+          loading.innerHTML = '<span class="loading-spinner" aria-hidden="true"></span><span>Loading…</span>';
+          const bench = getRandomBench();
+          if (bench) await displayBench(bench);
+        });
+      }
+
+      init();
+    })();
+  </script>
+
+</body>
+</html>

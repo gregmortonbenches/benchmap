@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About – Bench Map UK</title>
+  <meta name="description" content="Bench Map UK maps every public bench in the United Kingdom — over 157,000 of them." />
+  <meta name="theme-color" content="#1a2e1a">
+  <link rel="canonical" href="https://www.benchmap.co.uk/about.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://www.benchmap.co.uk/about.html">
+  <meta property="og:site_name"   content="Bench Map UK">
+  <meta property="og:title"       content="About – Bench Map UK">
+  <meta property="og:description" content="Bench Map UK maps every public bench in the United Kingdom — over 157,000 of them.">
+  <meta property="og:image"       content="https://www.benchmap.co.uk/sky1.png">
+  <meta property="og:image:width" content="1920">
+  <meta property="og:image:height" content="1080">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="About – Bench Map UK">
+  <meta name="twitter:description" content="Bench Map UK maps every public bench in the United Kingdom — over 157,000 of them.">
+  <meta name="twitter:image"       content="https://www.benchmap.co.uk/sky1.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "url": "https://www.benchmap.co.uk/about.html",
+    "name": "About – Bench Map UK",
+    "description": "Bench Map UK maps every public bench in the United Kingdom — over 157,000 of them.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Bench Map UK",
+      "url": "https://www.benchmap.co.uk"
+    }
+  }
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P5894RYLBQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-P5894RYLBQ');
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
+      background: #1a2e1a;
+      color: #E8F0E8;
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ====== HEADER ====== */
+    .header {
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .header-logo-circle {
+      width: 34px; height: 34px;
+      background: #483735;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .header-logo-text {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-link {
+      color: #a8c5a8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+
+    .nav-link:hover { color: #fff; }
+
+    /* ====== MAIN ====== */
+    .page-content {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 56px 24px 72px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* ====== SCENE ====== */
+    .scene-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 15 / 7;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 52px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+
+    /* Sky frames — stacked, crossfade in sequence */
+    .sky-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /*
+      9-image crossfade on a 45s cycle.
+      Each frame peaks 5s apart: img1@0s, img2@5s, … img9@40s.
+    */
+    @keyframes crossfade {
+      0%   { opacity: 1; }
+       8%  { opacity: 1; }  /* hold visible  */
+      11%  { opacity: 0; }  /* fade out       */
+      93%  { opacity: 0; }  /* stay invisible */
+      100% { opacity: 1; }  /* fade back in   */
+    }
+
+    .sky1  { animation: crossfade 45s ease-in-out infinite; animation-delay:   0s; }
+    .sky2  { animation: crossfade 45s ease-in-out infinite; animation-delay: -40s; }
+    .sky3  { animation: crossfade 45s ease-in-out infinite; animation-delay: -35s; }
+    .sky4  { animation: crossfade 45s ease-in-out infinite; animation-delay: -30s; }
+    .sky5  { animation: crossfade 45s ease-in-out infinite; animation-delay: -25s; }
+    .sky6  { animation: crossfade 45s ease-in-out infinite; animation-delay: -20s; }
+    .sky7  { animation: crossfade 45s ease-in-out infinite; animation-delay: -15s; }
+    .sky9  { animation: crossfade 45s ease-in-out infinite; animation-delay: -10s; }
+    .sky10 { animation: crossfade 45s ease-in-out infinite; animation-delay:  -5s; }
+
+    /* Ground strip — matches page background so scene bleeds into page */
+    .scene-ground {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 22%;
+      background: linear-gradient(to bottom, rgba(13,26,13,0.85), #0a1a0a);
+    }
+
+    /* Bench silhouette */
+    .scene-bench {
+      position: absolute;
+      bottom: 15%;          /* legs touch the ground line (SVG has ~7% dead space at base) */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36%;
+      max-width: 185px;
+    }
+
+    .scene-bench svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* ====== MISSION ====== */
+    .mission {
+      margin-bottom: 56px;
+    }
+
+    .mission p {
+      font-size: 1.08rem;
+      color: #c5d5c5;
+      margin: 0 0 18px;
+    }
+
+    .mission p:last-child { margin-bottom: 0; }
+
+    /* ====== YOUR STATS ====== */
+    .your-stats {
+      margin-bottom: 52px;
+      padding-top: 36px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .your-stats h2 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: #7a9a7a;
+      margin: 0 0 24px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 32px;
+    }
+
+    .stat-item { flex: 1; }
+
+    .stat-number {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: #7a9a7a;
+      font-weight: 600;
+    }
+
+    .stat-total {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #7a9a7a;
+    }
+
+    /* ====== BENCH OF THE DAY LINK ====== */
+    .botd-link {
+      display: block;
+      padding-top: 36px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .botd-link a {
+      color: #a8c5a8;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+
+    .botd-link a:hover { color: #fff; }
+
+    .botd-link .day { color: #66BB6A; font-size: 0.82rem; font-weight: 600; display: block; margin-bottom: 6px; }
+
+    /* ====== CREDITS MAP ====== */
+    .credits {
+      padding-top: 36px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 36px;
+    }
+
+    .credits h2 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: #7a9a7a;
+      margin: 0 0 20px;
+    }
+
+    .credits-map {
+      width: 100%;
+      display: block;
+      opacity: 0.9;
+    }
+
+    /* ====== FOOTER ====== */
+    footer {
+      padding: 28px 24px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      text-align: center;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: #7a9a7a;
+    }
+
+    footer a { color: #7a9a7a; text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 480px) {
+      .header { padding: 12px 16px; }
+      .header-logo-text { display: none; }
+      .page-content { padding: 36px 16px 56px; }
+      .stat-number { font-size: 2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .sky1, .sky2, .sky3, .sky4, .sky5, .sky6, .sky7, .sky9, .sky10 { animation: none; }
+      .sky2, .sky3, .sky4, .sky5, .sky6, .sky7, .sky9, .sky10 { opacity: 0; }
+    }
+
+    a:focus-visible {
+      outline: 2px solid #388E3C;
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.html" class="header-logo" aria-label="Back to map">
+      <div class="header-logo-circle" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 4 32 24" width="19" height="19" fill="#fff">
+          <path d="M27.5,7l-23,0l0,-1c-0,-0.276 -0.224,-0.5 -0.5,-0.5c-0.276,0 -0.5,0.224 -0.5,0.5l0,10.5l-1.5,-0c-0.276,0 -0.5,0.224 -0.5,0.5l0,3.5c0,0.276 0.224,0.5 0.5,0.5l1,-0l0,5c-0,0.276 0.224,0.5 0.5,0.5c0.276,0 0.5,-0.224 0.5,-0.5l0,-5l24,-0l0,5c-0,0.276 0.224,0.5 0.5,0.5c0.276,0 0.5,-0.224 0.5,-0.5l0,-5l1,-0c0.276,-0 0.5,-0.224 0.5,-0.5l0,-3.5c0,-0.276 -0.224,-0.5 -0.5,-0.5l-1.5,-0l0,-10.5c-0,-0.276 -0.224,-0.5 -0.5,-0.5c-0.276,0 -0.5,0.224 -0.5,0.5l0,1Zm-23,6.5l0,3l23,-0l0,-3l-23,-0Z"/>
+        </svg>
+      </div>
+      <span class="header-logo-text">Bench Map UK</span>
+    </a>
+    <nav class="header-nav" aria-label="Page navigation">
+      <a href="index.html" class="nav-link">← Map</a>
+      <a href="bench-of-the-day.html" class="nav-link">Today's bench</a>
+    </nav>
+  </header>
+
+  <main class="page-content">
+    <h1 class="sr-only">About Bench Map UK</h1>
+
+    <!-- Animated sky scene -->
+    <div class="scene-wrapper" aria-hidden="true">
+
+      <!-- Nine sky frames — crossfade in sequence -->
+      <img class="sky-frame sky1"  src="sky1.png"  alt="">
+      <img class="sky-frame sky2"  src="sky2.png"  alt="">
+      <img class="sky-frame sky3"  src="sky3.png"  alt="">
+      <img class="sky-frame sky4"  src="sky4.png"  alt="">
+      <img class="sky-frame sky5"  src="sky5.png"  alt="">
+      <img class="sky-frame sky6"  src="sky6.png"  alt="">
+      <img class="sky-frame sky7"  src="sky7.png"  alt="">
+      <img class="sky-frame sky9"  src="sky9.png"  alt="">
+      <img class="sky-frame sky10" src="sky10.png" alt="">
+
+      <!-- Dark ground — bleeds into page background -->
+      <div class="scene-ground"></div>
+
+      <!-- Bench silhouette sits on the ground line -->
+      <div class="scene-bench">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 4 32 24" fill="#0d150d">
+          <path d="M27.5,7l-23,0l0,-1c-0,-0.276 -0.224,-0.5 -0.5,-0.5c-0.276,0 -0.5,0.224 -0.5,0.5l0,10.5l-1.5,-0c-0.276,0 -0.5,0.224 -0.5,0.5l0,3.5c0,0.276 0.224,0.5 0.5,0.5l1,-0l0,5c-0,0.276 0.224,0.5 0.5,0.5c0.276,0 0.5,-0.224 0.5,-0.5l0,-5l24,-0l0,5c-0,0.276 0.224,0.5 0.5,0.5c0.276,0 0.5,-0.224 0.5,-0.5l0,-5l1,-0c0.276,-0 0.5,-0.224 0.5,-0.5l0,-3.5c0,-0.276 -0.224,-0.5 -0.5,-0.5l-1.5,-0l0,-10.5c-0,-0.276 -0.224,-0.5 -0.5,-0.5c-0.276,0 -0.5,0.224 -0.5,0.5l0,1Zm-23,6.5l0,3l23,-0l0,-3l-23,-0Z"/>
+        </svg>
+      </div>
+
+    </div>
+
+    <section class="mission" aria-label="About Bench Map UK">
+      <p>Britain has lots of brilliant benches. Bench Map UK draws on public data to help you find the best bench near you. You can rate, log and favourite benches.</p>
+      <p style="font-size:13px;color:#7a9a7a;margin-top:8px;">Over 157,000 benches from OpenStreetMap, enriched with memorial inscriptions from <a href="https://openbenches.org" target="_blank" rel="noopener" style="color:#7a9a7a;">OpenBenches</a>.</p>
+    </section>
+
+    <section class="your-stats" aria-label="Your activity">
+      <h2>Your activity</h2>
+      <div class="stats-row">
+        <div class="stat-item">
+          <div class="stat-number" id="statFavourites">—</div>
+          <div class="stat-label">Favourites</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span id="statVisited">—</span><span class="stat-total"> / 157,000</span></div>
+          <div class="stat-label">Visited</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="botd-link">
+      <span class="day">Daily</span>
+      <a href="bench-of-the-day.html">Bench of the day →</a>
+    </div>
+
+    <!-- Icon credits as a mini street map -->
+    <section class="credits" aria-label="Icon credits">
+      <h2>Icon credits</h2>
+      <svg class="credits-map" viewBox="0 0 540 168" xmlns="http://www.w3.org/2000/svg" aria-label="Street map naming the icon designers from the Noun Project">
+
+        <!-- Outer map border (dashed, like a plan edge) -->
+        <rect x="0.75" y="0.75" width="538.5" height="166.5" fill="none" stroke="#253e25" stroke-width="0.75" stroke-dasharray="4 3"/>
+
+        <!-- ── Roads ── -->
+        <!-- Horizontal: H1 y=62, H2 y=128 -->
+        <line x1="0"   y1="62"  x2="540" y2="62"  stroke="#2d4b2d" stroke-width="1.5"/>
+        <line x1="0"   y1="128" x2="540" y2="128" stroke="#2d4b2d" stroke-width="1.5"/>
+        <!-- Vertical: V1 x=80, V2 x=268, V3 x=456 -->
+        <line x1="80"  y1="0"   x2="80"  y2="168" stroke="#2d4b2d" stroke-width="1.5"/>
+        <line x1="268" y1="0"   x2="268" y2="168" stroke="#2d4b2d" stroke-width="1.5"/>
+        <line x1="456" y1="0"   x2="456" y2="168" stroke="#2d4b2d" stroke-width="1.5"/>
+
+        <!-- ── Intersection squares ── -->
+        <rect x="77.25" y="59.25" width="5.5" height="5.5" fill="#2d4b2d"/>
+        <rect x="265.25" y="59.25" width="5.5" height="5.5" fill="#2d4b2d"/>
+        <rect x="453.25" y="59.25" width="5.5" height="5.5" fill="#2d4b2d"/>
+        <rect x="77.25" y="125.25" width="5.5" height="5.5" fill="#2d4b2d"/>
+        <rect x="265.25" y="125.25" width="5.5" height="5.5" fill="#2d4b2d"/>
+        <rect x="453.25" y="125.25" width="5.5" height="5.5" fill="#2d4b2d"/>
+
+        <!-- ── Horizontal road labels (above the line, centred in their segment) ── -->
+        <!-- MULYANA ROAD on H1, between V2 (268) and V3 (456), centre x=362 -->
+        <text x="362" y="56" text-anchor="middle"
+              font-family="monospace" font-size="7.5" letter-spacing="2" fill="#6a8a6a">MULYANA ROAD</text>
+        <!-- SIDE PROJECT LANE on H2, between V1 (80) and V2 (268), centre x=174 -->
+        <text x="174" y="122" text-anchor="middle"
+              font-family="monospace" font-size="7.5" letter-spacing="1.2" fill="#6a8a6a">SIDE PROJECT LANE</text>
+
+        <!-- ── Vertical road labels (rotated −90°, centred in segment) ── -->
+        <!-- SINGLAR ST on V1 (x=80), middle segment y=62→128, centre y=95 -->
+        <text transform="translate(74, 95) rotate(-90)" text-anchor="middle"
+              font-family="monospace" font-size="7.5" letter-spacing="2" fill="#6a8a6a">SINGLAR ST</text>
+        <!-- AYBIGE AVE on V2 (x=268), top segment y=0→62, centre y=31 -->
+        <text transform="translate(262, 31) rotate(-90)" text-anchor="middle"
+              font-family="monospace" font-size="7.5" letter-spacing="2" fill="#6a8a6a">AYBIGE AVE</text>
+        <!-- SUTIYAH WAY on V3 (x=456), top segment y=0→62, centre y=31 -->
+        <text transform="translate(450, 31) rotate(-90)" text-anchor="middle"
+              font-family="monospace" font-size="7.5" letter-spacing="2" fill="#6a8a6a">SUTIYAH WAY</text>
+
+        <!-- ── North arrow (top-right corner) ── -->
+        <g transform="translate(514, 10)">
+          <line x1="5" y1="18" x2="5" y2="3" stroke="#3a5a3a" stroke-width="1"/>
+          <polygon points="5,0 3,6 5,4 7,6" fill="#3a5a3a"/>
+          <text x="5" y="26" text-anchor="middle"
+                font-family="monospace" font-size="7" fill="#3a5a3a">N</text>
+        </g>
+
+        <!-- ── Attribution (bottom-left, inside map) ── -->
+        <text x="10" y="159" font-family="monospace" font-size="6.5" letter-spacing="0.4" fill="#3d5a3d">Noun Project · CC BY 3.0</text>
+
+      </svg>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Data from <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a> · Built with <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a> &amp; <a href="https://firebase.google.com/" target="_blank" rel="noopener">Firebase</a></p>
+  </footer>
+
+  <script>
+    (function() {
+      try {
+        var favs    = JSON.parse(localStorage.getItem('favorites') || '[]').length;
+        var visited = JSON.parse(localStorage.getItem('visited')   || '[]').length;
+        document.getElementById('statFavourites').textContent = favs;
+        document.getElementById('statVisited').textContent    = visited;
+      } catch(e) {
+        document.getElementById('statFavourites').textContent = '0';
+        document.getElementById('statVisited').textContent    = '0';
+      }
+    })();
+  </script>
+
+</body>
+</html>
