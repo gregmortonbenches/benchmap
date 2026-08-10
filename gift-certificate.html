@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=%%GLOBAL_CharacterSet%%" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gift Voucher</title>
+
+<!--
+  ASSETS TO SWAP IN
+  -----------------
+  1. Book illustration  -> search for  BOOK_ILLUSTRATION_URL
+  2. Arrow on the CTA   -> currently the text glyph &#8594; (renders everywhere,
+                           no asset needed). To use the supplied artwork instead,
+                           search for  ARROW_SWAP  and follow the note there.
+  Host both on an absolute HTTPS URL - email clients will not load relative paths.
+-->
+
+<style type="text/css">
+	body {
+		margin: 0;
+		padding: 0;
+		background-color: #ffffff;
+		-webkit-text-size-adjust: 100%;
+		-ms-text-size-adjust: 100%;
+	}
+	table {
+		border-collapse: collapse;
+		mso-table-lspace: 0pt;
+		mso-table-rspace: 0pt;
+	}
+	img {
+		border: 0;
+		outline: none;
+		display: block;
+		-ms-interpolation-mode: bicubic;
+	}
+	.voucher {
+		width: 560px;
+		background-color: #bc4083;
+		border-radius: 6px;
+	}
+	.voucher-body {
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		color: #fef2f8;
+	}
+	.logo-cell img {
+		max-width: 150px;
+		height: auto;
+	}
+	#GiftCertificateAmount {
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		font-size: 46px;
+		line-height: 46px;
+		font-weight: bold;
+		color: #fef2f8;
+	}
+	.expiry {
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		font-size: 11px;
+		line-height: 16px;
+		color: #fef2f8;
+	}
+	.line {
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		font-size: 14px;
+		line-height: 22px;
+		color: #fef2f8;
+	}
+	#GiftCertificateTo, #GiftCertificateFrom {
+		font-weight: bold;
+	}
+	.message {
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		font-size: 14px;
+		line-height: 22px;
+		color: #fef2f8;
+	}
+	.code-label {
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		font-size: 14px;
+		line-height: 22px;
+		color: #fef2f8;
+	}
+	#GiftCertificateCode {
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		font-size: 20px;
+		line-height: 28px;
+		font-weight: bold;
+		letter-spacing: 0.5px;
+		color: #fef2f8;
+	}
+	.cta {
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		font-size: 13px;
+		line-height: 18px;
+		font-weight: bold;
+		color: #fef2f8;
+		text-decoration: none;
+		border: 1px solid #fef2f8;
+		border-radius: 22px;
+		padding: 11px 20px;
+		display: inline-block;
+	}
+	a {
+		color: #fef2f8;
+	}
+
+	/* Small screens: let the card fill the width and the artwork scale down. */
+	@media only screen and (max-width: 600px) {
+		.voucher { width: 100% !important; }
+		.voucher-art { width: 30% !important; }
+		.voucher-art img { width: 100% !important; height: auto !important; }
+		#GiftCertificateAmount { font-size: 38px !important; line-height: 38px !important; }
+	}
+</style>
+</head>
+<body>
+
+<table class="voucher" role="presentation" cellpadding="0" cellspacing="0" border="0" width="560" bgcolor="#bc4083" style="width: 560px; background-color: #bc4083; border-radius: 6px; border-collapse: collapse;">
+<tbody>
+<tr>
+
+	<!-- ============ CONTENT COLUMN ============ -->
+	<td class="voucher-body" valign="top" style="padding: 22px 10px 22px 24px; font-family: Georgia, 'Times New Roman', Times, serif; color: #fef2f8;">
+
+		<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse: collapse;">
+		<tbody>
+
+			<!-- Logo + amount + expiry -->
+			<tr>
+				<td valign="top" style="padding-bottom: 14px;">
+					<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+					<tbody>
+					<tr>
+						<td class="logo-cell" valign="top" style="padding-right: 22px;">%%GLOBAL_HeaderLogo%%</td>
+						<td valign="top">
+							<div id="GiftCertificateAmount" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 46px; line-height: 46px; font-weight: bold; color: #fef2f8; mso-line-height-rule: exactly;">%%GLOBAL_GiftCertificateAmount%%</div>
+							<div class="expiry" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 11px; line-height: 16px; color: #fef2f8; padding-top: 6px;">%%GLOBAL_GiftCertificateExpiryInfo%%</div>
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>
+
+			<!-- To -->
+			<tr>
+				<td class="line" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 14px; line-height: 22px; color: #fef2f8;">%%LNG_CertificateTo%%: <span id="GiftCertificateTo" style="font-weight: bold;">%%GLOBAL_GiftCertificateTo%%</span></td>
+			</tr>
+
+			<!-- From -->
+			<tr>
+				<td class="line" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 14px; line-height: 22px; color: #fef2f8;">%%LNG_CertificateFrom%%: <span id="GiftCertificateFrom" style="font-weight: bold;">%%GLOBAL_GiftCertificateFrom%%</span></td>
+			</tr>
+
+			<!-- Personal message -->
+			<tr>
+				<td class="message" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 14px; line-height: 22px; color: #fef2f8; padding-top: 12px;">%%GLOBAL_GiftCertificateMessage%%</td>
+			</tr>
+
+			<!-- Code -->
+			<tr>
+				<td class="code-label" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 14px; line-height: 22px; color: #fef2f8; padding-top: 14px;">%%LNG_CertificateCode%%:</td>
+			</tr>
+			<tr>
+				<td style="padding-top: 2px;"><span id="GiftCertificateCode" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 20px; line-height: 28px; font-weight: bold; letter-spacing: 0.5px; color: #fef2f8;">%%GLOBAL_GiftCertificateCode%%</span></td>
+			</tr>
+
+			<!-- Redeem button -->
+			<tr>
+				<td style="padding-top: 18px;">
+					<!-- ARROW_SWAP: to use the supplied arrow artwork, replace the
+					     &#8594; below with:
+					     <img src="ARROW_URL" width="14" height="10" alt="" style="display:inline-block; vertical-align:middle; border:0;" />
+					     Keep the text glyph if you would rather not depend on
+					     images loading. -->
+					<a class="cta" href="https://www.guardianbookshop.com" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 13px; line-height: 18px; font-weight: bold; color: #fef2f8; text-decoration: none; border: 1px solid #fef2f8; border-radius: 22px; padding: 11px 20px; display: inline-block;">Redeem at the Guardian Bookshop &nbsp;&#8594;</a>
+				</td>
+			</tr>
+
+		</tbody>
+		</table>
+
+	</td>
+
+	<!-- ============ ILLUSTRATION COLUMN ============ -->
+	<td class="voucher-art" width="190" valign="bottom" align="right" style="width: 190px; font-size: 0; line-height: 0;">
+		<!-- BOOK_ILLUSTRATION_URL: swap src for the absolute HTTPS URL of the book
+		     artwork.
+		     Export it 380px wide (2x for retina) by roughly 600px tall, already
+		     cropped hard against its right edge - that is what reproduces the
+		     bleed off the side of the card in the design. Email clients cannot
+		     crop a background image reliably, so the crop has to be baked in.
+		     alt is intentionally empty: the image is decorative, so nothing ugly
+		     shows if the client blocks images. -->
+		<img src="BOOK_ILLUSTRATION_URL" width="190" alt="" style="display: block; width: 190px; height: auto; border: 0;" />
+	</td>
+
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
