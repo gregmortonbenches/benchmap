@@ -321,7 +321,10 @@
             });
             return docs.map(function(p) { return { url: p.url, source: 'firebase' }; });
           })
-          .catch(function() { return []; })
+          .catch(function(err) {
+            console.error('Failed to fetch bench photos:', err);
+            return [];
+          })
       : Promise.resolve([]);
 
     firebasePromise.then(function(firebasePhotos) {
@@ -385,12 +388,14 @@
 
     var img = carousel.querySelector('.photo-carousel-img');
     var counter = carousel.querySelector('.photo-carousel-counter');
-    var safeUrl = escapeHtml(urls[idx]);
+    // Raw URL here: escaping only applies to innerHTML strings, not DOM properties
+    // (escaped "&amp;" in a Firebase token URL would break the image).
+    var url = urls[idx];
     if (img) {
       img.style.opacity = '0';
       setTimeout(function() {
-        img.src = safeUrl;
-        img.setAttribute('onclick', 'window.benchApp.openPhotoLightbox(\'' + safeUrl.replace(/'/g, '&#39;') + '\')');
+        img.src = url;
+        img.onclick = function() { openPhotoLightbox(url); };
         img.style.opacity = '1';
       }, 120);
     }
